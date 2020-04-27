@@ -1,6 +1,18 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import { EditorProps } from '../../Types/Editor';
-import {Grid, Paper, makeStyles, createStyles, Theme, Typography, TextField, Button, useTheme, Input} from "@material-ui/core";
+import {
+    Grid,
+    Paper,
+    makeStyles,
+    createStyles,
+    Theme,
+    Typography,
+    TextField,
+    Button,
+    useTheme,
+    Input,
+    ButtonGroup
+} from "@material-ui/core";
 import {Image as ImageData} from "../../Types/Image";
 import { useParams } from 'react-router-dom';
 import { context as ImageContext } from '../../Store';
@@ -47,7 +59,7 @@ interface  rect {
     height: number;
 }
 
-export const Editor: React.FunctionComponent<EditorProps> = ({ image }) =>{
+export const Editor: React.FunctionComponent = (props: any) =>{
     const classes = useStyles();
     const initImageData = {
         date: "",
@@ -66,7 +78,7 @@ export const Editor: React.FunctionComponent<EditorProps> = ({ image }) =>{
     const [clickX, setClickX] = useState<number[]>([]);
     const [clickY, setClickY] = useState<number[]>([]);
     const [clickDrag, setClickDrag] = useState<boolean[]>([]);
-    const [imageState,setImageState] = useState<ImageData>(image || initImageData);
+    const [imageState,setImageState] = useState<ImageData>(initImageData);
     const theme = useTheme();
 
     const [rects, setRects] = useState<rect[]>([]);
@@ -133,7 +145,10 @@ export const Editor: React.FunctionComponent<EditorProps> = ({ image }) =>{
                     imageData: imageData
                 }
             }
-        })
+        });
+        const imageString = JSON.stringify(state.images);
+        localStorage.setItem('images',imageString);
+        props.history.push("/images");
     }
 
     const redraw = () => {
@@ -286,10 +301,14 @@ export const Editor: React.FunctionComponent<EditorProps> = ({ image }) =>{
                             variant={"outlined"}
                         />
                         {/*imageEditorProperties*/}
+                        <ButtonGroup variant={"contained"} color={"primary"}>
+                            <Button onClick={() => setMode("free")}>Free Style</Button>
+                            <Button onClick={() => setMode("rect")}>Rectangle</Button>
+                        </ButtonGroup>
                     </div>
                     <div className={classes.buttonOptions}>
-                        <Button variant={"outlined"} onClick={() => setImageState(initImageData)} color={"secondary"}>
-                            Clear
+                        <Button variant={"outlined"} onClick={() => props.history.push("/images")} color={"secondary"}>
+                            Back
                         </Button>
                         <Button variant={"contained"} onClick={handleSave} color={"primary"}>Save</Button>
                     </div>

@@ -4,6 +4,7 @@ import { createMuiTheme, makeStyles, createStyles, Theme ,ThemeProvider } from '
 import {orange, yellow} from '@material-ui/core/colors';
 import {Layout} from "./Components/Layout";
 import { ImageProvider } from './Store';
+import { withRouter } from 'react-router-dom';
 
 const theme = createMuiTheme({
   palette: {
@@ -26,4 +27,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);

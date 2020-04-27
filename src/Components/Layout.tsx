@@ -4,7 +4,7 @@ import { createStyles, makeStyles, Theme, AppBar, Toolbar,
         Typography, IconButton, useTheme, Drawer, CssBaseline,
         Divider, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import { Menu as MenuIcon, ChevronLeft as ChevronLeftIcon,
-        ChevronRight as ChevronRightIcon, Home as HomeIcon } from '@material-ui/icons';
+        ChevronRight as ChevronRightIcon, Home as HomeIcon, List as ListIcon } from '@material-ui/icons';
 import { Switch, Route, Link } from 'react-router-dom';
 import {Home} from "./Home/Home";
 import {Editor} from "./Editor/Editor";
@@ -142,6 +142,10 @@ export const Layout: React.FunctionComponent = () => {
                   <ListItem key={"home"} button component={ Link } to={"/"}>
                       <ListItemIcon><HomeIcon /></ListItemIcon>
                       <ListItemText primary={"Home"}/>
+                  </ListItem>
+                  <ListItem key={"images"} button component={ Link } to={"/images"}>
+                      <ListItemIcon><ListIcon /></ListItemIcon>
+                      <ListItemText primary={"Images"}/>
                   </ListItem>
               </List>
           </Drawer>
