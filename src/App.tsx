@@ -3,6 +3,7 @@ import './App.css';
 import { createMuiTheme, makeStyles, createStyles, Theme ,ThemeProvider } from '@material-ui/core';
 import {orange, yellow} from '@material-ui/core/colors';
 import {Layout} from "./Components/Layout";
+import { ImageProvider } from './Store';
 
 const theme = createMuiTheme({
   palette: {
@@ -18,7 +19,9 @@ const theme = createMuiTheme({
 function App() {
   return (
       <ThemeProvider theme={theme}>
-        <Layout />
+        <ImageProvider>
+          <Layout />
+        </ImageProvider>
       </ThemeProvider>
   );
 }

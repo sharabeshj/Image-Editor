@@ -1,5 +1,5 @@
 import {Image} from "./Image";
 
-export interface ImageCardProps {
+export type ImageCardProps = {
     image: Image;
 }

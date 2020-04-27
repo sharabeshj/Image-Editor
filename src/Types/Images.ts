@@ -1,5 +1,5 @@
 import {Image} from "./Image";
 
-export interface ImagesProps {
+export type ImagesProps = {
     images: Image[];
 }

@@ -1,6 +1,6 @@
 import { Image } from './Image';
 
-export interface EditorProps {
+export type EditorProps = {
     image: Image;
     handleImageChange: (image: Image) => void;
 }

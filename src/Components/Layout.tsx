@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, Theme, AppBar, Toolbar,
         Typography, IconButton, useTheme, Drawer, CssBaseline,
@@ -7,6 +7,10 @@ import { Menu as MenuIcon, ChevronLeft as ChevronLeftIcon,
         ChevronRight as ChevronRightIcon, Home as HomeIcon } from '@material-ui/icons';
 import { Switch, Route, Link } from 'react-router-dom';
 import {Home} from "./Home/Home";
+import {Editor} from "./Editor/Editor";
+import {Images} from "./Images/Images";
+import {context} from "../Store";
+import {Types} from "../ImageReducer";
 
 const drawerWidth = 240;
 
@@ -30,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             flexGrow: 1,
+            color : theme.palette.text.primary
         },
         hide: {
             display: 'none',
@@ -59,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         contentShift: {
             transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
+                    easing: theme.transitions.easing.easeOut,
                 duration: theme.transitions.duration.enteringScreen
             }),
             marginLeft: 0
@@ -68,12 +73,31 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Layout: React.FunctionComponent = () => {
     const classes = useStyles();
+    const { state, dispatch } = useContext(context);
     const theme: Theme = useTheme();
     const [open,setOpen] = useState<boolean>(false);
 
     const handleDrawer = (value: boolean) => {
         setOpen(value);
     };
+
+    useEffect(() => {
+        //load from localstorage
+        const images = localStorage.getItem('images');
+        if( images !== null){
+            dispatch({
+                type: Types.Load,
+                payload: {
+                    images: JSON.parse(images)
+                }
+            })
+        }
+    },[]);
+
+    useEffect(() => {
+        const imageString = JSON.stringify(state.images);
+        localStorage.setItem('images',imageString);
+    },[state.images.length])
 
     return (
       <div className={classes.root}>
@@ -126,6 +150,9 @@ export const Layout: React.FunctionComponent = () => {
           })}>
               <div className={classes.drawerHeader}></div>
               <Switch>
+                  <Route path={"/images/add"} component={Editor}/>
+                  <Route path={"/images/edit/:id"} component={Editor}/>
+                  <Route path={"/images"} component={Images}/>
                   <Route path={"/"} component={ Home }/>
               </Switch>
           </main>
